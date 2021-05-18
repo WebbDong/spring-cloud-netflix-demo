@@ -9,7 +9,16 @@ spring:
     gateway:
       routes:
         # 静态路由配置
+#        - id: order-service
+#          uri: http://localhost:10007
+#          predicates:
+#            - Path=/order/**
+        # 动态路由配置
         - id: order-service
-          uri: http://localhost:10007
+          uri: lb://order-service
           predicates:
             - Path=/order/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**

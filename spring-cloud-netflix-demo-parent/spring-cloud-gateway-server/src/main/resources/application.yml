@@ -1,0 +1,15 @@
+server:
+  port: 26000
+spring:
+  profiles:
+    active: eureka
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      routes:
+        # 静态路由配置
+        - id: order-service
+          uri: http://localhost:10007
+          predicates:
+            - Path=/order/**

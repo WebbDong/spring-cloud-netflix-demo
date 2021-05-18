@@ -1,0 +1,18 @@
+spring:
+  profiles: consul
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        register: true
+        instance-id: ${spring.application.name}-1
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        health-check-path: /actuator/health
+        # 健康检查时间间隔
+        health-check-interval: 10s
+        # 开启ip地址注册
+        prefer-ip-address: true
+        # 实例的请求ip
+        ip-address: ${spring.cloud.client.ip-address}

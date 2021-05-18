@@ -1,0 +1,15 @@
+server:
+  port: 25000
+spring:
+  application:
+    name: zuul-server
+eureka:
+  client:
+    service-url:
+#      defaultZone: http://eureka1:20000/eureka/,http://eureka2:20001/eureka/,http://eureka3:20002/eureka/
+      defaultZone: http://localhost:20000/eureka/
+  instance:
+    prefer-ip-address: true
+ribbon:
+  ReadTimeout: 5000
+  SocketTimeout: 5000

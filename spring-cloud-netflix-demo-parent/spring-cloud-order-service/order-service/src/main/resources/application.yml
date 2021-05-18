@@ -1,0 +1,38 @@
+server:
+  port: 10007
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:mysql://localhost:33010/my_test?rewriteBatchedStatements=true&max_allowed_packet=10M&allowPublicKeyRetrieval=true&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  profiles:
+    active: eureka
+ribbon:
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+  MaxAutoRetriesNextServer: 0
+  MaxAutoRetries: 0
+  ReadTimeout: 10000
+feign:
+  hystrix:
+    enabled: true
+mybatis-plus:
+  type-aliases-package: com.webbdong.orderservice.model.entity
+  configuration:
+    # 设置驼峰命名规则
+    map-underscore-to-camel-case: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "localhost"

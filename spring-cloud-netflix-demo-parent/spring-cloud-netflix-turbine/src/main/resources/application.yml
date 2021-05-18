@@ -1,0 +1,22 @@
+server:
+  port: 8031
+spring:
+  application:
+    name: netflix-turbine
+  profiles:
+    active: eureka
+applications: order-service,user-service
+turbine:
+  # 要监控的微服务名列表，多个用 , 分隔
+  app-config: ${applications}
+  aggregator:
+    cluster-config: default
+  cluster-name-expression: "'default'"
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "localhost"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -1,0 +1,126 @@
+spring:
+  profiles:
+    active: single
+
+logging:
+  level:
+    com.netflix: debug
+
+# 单机
+---
+spring:
+  profiles: single
+  application:
+    name: single-eureka-server
+server:
+  port: 20000
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 15000
+    # 保护机制开关
+    enable-self-preservation: false
+  client:
+    # 是否将本工程注册到 Eureka 中
+    register-with-eureka: false
+    # 是否从 Eureka 中拉取其他服务的注册信息
+    fetch-registry: false
+    registry-fetch-interval-seconds: 5
+    # 暴露给 Eureka Client 的请求地址
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  instance:
+    # 服务失效时间，默认 90 秒，超过 90 秒如果没有心跳，将会剔除此服务
+    lease-expiration-duration-in-seconds: 15
+    # 心跳检测频率默认间隔 30 秒
+    lease-renewal-interval-in-seconds: 5
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    hostname: single
+---
+
+# 三台集群
+---
+spring:
+  profiles: eureka1
+  application:
+    name: eureka-server1
+server:
+  port: 20000
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 15000
+    enable-self-preservation: true
+  client:
+    # 是否将本工程注册到 Eureka 中
+    register-with-eureka: true
+    # 是否从 Eureka 中拉取其他服务的注册信息
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+    # 暴露给 Eureka Client 的请求地址
+    serviceUrl:
+      defaultZone: http://eureka2:20001/eureka/,http://eureka3:20002/eureka/
+  instance:
+    # 服务失效时间，默认 90 秒，超过 90 秒如果没有心跳，将会剔除此服务
+    lease-expiration-duration-in-seconds: 15
+    # 心跳检测频率默认间隔 30 秒
+    lease-renewal-interval-in-seconds: 5
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    hostname: eureka1
+---
+
+---
+spring:
+  profiles: eureka2
+  application:
+    name: eureka-server2
+server:
+  port: 20001
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 15000
+    enable-self-preservation: true
+  client:
+    # 是否将本工程注册到 Eureka 中
+    register-with-eureka: true
+    # 是否从 Eureka 中拉取其他服务的注册信息
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+    # 暴露给 Eureka Client 的请求地址
+    serviceUrl:
+      defaultZone: http://eureka1:20000/eureka/,http://eureka3:20002/eureka/
+  instance:
+    # 服务失效时间，默认 90 秒，超过 90 秒如果没有心跳，将会剔除此服务
+    lease-expiration-duration-in-seconds: 15
+    # 心跳检测频率默认间隔 30 秒
+    lease-renewal-interval-in-seconds: 5
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    hostname: eureka2
+---
+
+---
+spring:
+  profiles: eureka3
+  application:
+    name: eureka-server3
+server:
+  port: 20002
+eureka:
+  server:
+    eviction-interval-timer-in-ms: 15000
+    enable-self-preservation: true
+  client:
+    # 是否将本工程注册到 Eureka 中
+    register-with-eureka: true
+    # 是否从 Eureka 中拉取其他服务的注册信息
+    fetch-registry: true
+    registry-fetch-interval-seconds: 5
+    # 暴露给 Eureka Client 的请求地址
+    serviceUrl:
+      defaultZone: http://eureka1:20000/eureka/,http://eureka2:20001/eureka/
+  instance:
+    # 服务失效时间，默认 90 秒，超过 90 秒如果没有心跳，将会剔除此服务
+    lease-expiration-duration-in-seconds: 15
+    # 心跳检测频率默认间隔 30 秒
+    lease-renewal-interval-in-seconds: 5
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+    hostname: eureka3
+---

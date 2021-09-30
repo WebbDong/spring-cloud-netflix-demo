@@ -32,15 +32,15 @@
             <artifactId>order-service-pojo</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <!-- consul 服务发注册与发现依赖 -->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-consul-discovery</artifactId>-->
+<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
 <!--        </dependency>-->
+        <!-- consul 服务发注册与发现依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>

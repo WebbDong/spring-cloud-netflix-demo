@@ -7,18 +7,64 @@ spring:
     name: gateway-server
   cloud:
     gateway:
+      globalcors:
+        # 跨域配置，不能用于Cookie跨域
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
       routes:
         # 静态路由配置
-#        - id: order-service
-#          uri: http://localhost:10007
-#          predicates:
-#            - Path=/order/**
+        #        - id: order-service
+        #          uri: http://localhost:10007
+        #          predicates:
+        #            - Path=/order/**
         # 动态路由配置
         - id: order-service
           uri: lb://order-service
+          # 路由断言
           predicates:
-            - Path=/order/**
+            # 路径匹配
+            - Path=/api/order/**
+            # Cookie匹配。Cookie名为CookieToken，Cookie值为123456，也可以使用正则表达式匹配
+            - Cookie=CookieToken,123456
+            # 请求头匹配
+            - Header=Access-Token,^(?!\d+$)[\da-zA-Z]+$
+            # 请求方式匹配
+            - Method=GET,POST
+            # Host主机匹配，匹配Host请求头
+            - Host=localhost
+            # 自定义断言
+            - TokenHeader=Authorization
+            - MyMethod=GET,POST
+            - GatherListTailFlag=param1,param2,false
+          # 局部过滤器
+          filters:
+            # 前缀默认过滤器，访问 /api/order/1 转发时将地址去掉第一个 /api 为 /order/1
+            - StripPrefix=1
+            - PayMethodHeader=alipay
+            - MyNameValue=Ferrari,488
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/user/**
+      # 全局默认过滤器作用在所有路由上，也可单独为某个路由配置
+      default-filters:
+        # 添加响应头默认过滤器
+        - AddResponseHeader=X-Response-Default-Name,Ferrari
+        # 请求数限流过滤器，固定名字，实现类 org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory
+        - name: RequestRateLimiter
+          args: # 下面的配置实现的是：一秒内，允许一个请求通过，令牌桶的填充速率也是一秒钟添加一个令牌。
+            # 通过SPEL表达式来指定使用 哪一个KeyResolver
+            key-resolver: "#{@ipKeyResolver}"
+            # 令牌桶填充的速率
+            redis-rate-limiter.replenishRate: 1
+            # 令牌桶的容量，允许在一秒钟内完成的最大请求数，将此值设置为零将阻止所有请求
+            redis-rate-limiter.burstCapacity: 1
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    password: LocalRedis

@@ -23,6 +23,17 @@ ribbon:
 feign:
   hystrix:
     enabled: true
+  compression:
+    request:
+      # 开启请求压缩
+      enabled: true
+      # 设置压缩的数据类型
+      mime-types: text/html,application/xml,application/json
+      # 设置触发压缩的大小下限
+      min-request-size: 2048
+    response:
+      # 开启响应压缩
+      enabled: true
 mybatis-plus:
   type-aliases-package: com.webbdong.orderservice.model.entity
   configuration:

@@ -51,3 +51,6 @@ management:
 hystrix:
   dashboard:
     proxy-stream-allow-list: "localhost"
+logging:
+  level:
+    com.webbdong.userservice: debug

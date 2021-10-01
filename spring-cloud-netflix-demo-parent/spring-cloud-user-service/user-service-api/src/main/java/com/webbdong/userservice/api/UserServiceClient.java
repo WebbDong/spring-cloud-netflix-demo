@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Webb Dong
  * @date 2021-05-09 4:24 PM
  */
-@FeignClient(name = "user-service", fallback = UserServiceClientFallback.class)
+@FeignClient(name = "user-service"/*, fallback = UserServiceClientFallback.class*/)
 public interface UserServiceClient {
 
     @GetMapping("/user/{userId}")

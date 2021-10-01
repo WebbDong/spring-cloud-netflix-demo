@@ -38,6 +38,7 @@
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mysql-connector-java.version>8.0.23</mysql-connector-java.version>
+        <jackson-datatype-jsr310.version>2.12.4</jackson-datatype-jsr310.version>
     </properties>
 
     <dependencies>
@@ -92,6 +93,11 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson-datatype-jsr310.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,0 +1,47 @@
+server:
+  port: 9990
+spring:
+  application:
+    name: spring-cloud-stream-producer
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        # 实例id，最好保持唯一不要重复
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        #注册到Consul中的服务名字
+        service-name: ${spring.application.name}
+        port: ${server.port}
+        # 开启ip地址注册
+        prefer-ip-address: true
+        # 实例的请求ip
+        ip-address: ${spring.cloud.client.ip-address}
+        # 开启服务注册
+        register: true
+        # 开启服务发现
+        enabled: true
+        # 2分钟之后健康检查未通过取消注册
+        health-check-critical-timeout: 2m
+        # consul健康检查的轮询周期
+        health-check-interval: 10s
+        health-check-path: /actuator/health
+    stream:
+      # 在此处配置要绑定的rabbitmq的服务信息
+      binders:
+        # 定义的名称
+        defaultRabbit:
+          type: rabbit
+      # 服务的整合处理
+      bindings:
+        # 这个名字是一个通道的名称
+        output:
+          destination: demoExchange
+          content-type: application/json
+  rabbitmq:
+    addresses: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    host: /
+

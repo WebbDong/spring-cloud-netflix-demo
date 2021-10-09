@@ -24,6 +24,7 @@
         <module>spring-cloud-netflix-turbine</module>
         <module>spring-cloud-config-server</module>
         <module>spring-cloud-gateway-server</module>
+        <module>spring-cloud-stream</module>
     </modules>
 
     <properties>

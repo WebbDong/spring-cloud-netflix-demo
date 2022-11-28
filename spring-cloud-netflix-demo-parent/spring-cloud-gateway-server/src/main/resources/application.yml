@@ -58,11 +58,13 @@ spring:
         # 请求数限流过滤器，固定名字，实现类 org.springframework.cloud.gateway.filter.factory.RequestRateLimiterGatewayFilterFactory
         - name: RequestRateLimiter
           args: # 下面的配置实现的是：一秒内，允许一个请求通过，令牌桶的填充速率也是一秒钟添加一个令牌。
-            # 通过SPEL表达式来指定使用 哪一个KeyResolver
+            # 通过SPEL表达式来指定使用 哪一个KeyResolver, ipKeyResolver 指的是 CurrentLimitingConfig.java 中配置的 bean
             key-resolver: "#{@ipKeyResolver}"
-            # 令牌桶填充的速率
+            # 令牌桶填充的速率，每秒生成令牌的数量，也就是每秒允许的请求数量
             redis-rate-limiter.replenishRate: 1
             # 令牌桶的容量，允许在一秒钟内完成的最大请求数，将此值设置为零将阻止所有请求
+            # 如果每秒实际的请求数大于 replenishRate，那么多出来请求就会消耗 burstCapacity 里面的令牌，
+            # 当 burstCapacity 令牌数消耗完之后，就会拒绝请求，返回429
             redis-rate-limiter.burstCapacity: 1
   redis:
     port: 6379

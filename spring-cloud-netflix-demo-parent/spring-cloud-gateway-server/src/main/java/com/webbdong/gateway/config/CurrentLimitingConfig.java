@@ -8,13 +8,15 @@ import reactor.core.publisher.Mono;
 /**
  * 限流配置
  * Spring Cloud Gateway 默认使用 redis 的 RateLimiter 限流算法来实现
- *
  * @author Webb Dong
  * @date 2021-09-30 12:00 AM
  */
 @Configuration
 public class CurrentLimitingConfig {
 
+    /**
+     * 根据客户端ip地址进行限流
+     */
     @Bean(name = "ipKeyResolver")
     public KeyResolver ipKeyResolver() {
         return exchange -> {

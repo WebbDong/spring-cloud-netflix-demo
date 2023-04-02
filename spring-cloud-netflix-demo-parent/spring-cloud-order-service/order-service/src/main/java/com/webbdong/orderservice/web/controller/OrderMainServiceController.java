@@ -38,7 +38,7 @@ public class OrderMainServiceController {
         commandKey = "get_by_id",
         threadPoolKey = "get_by_id_pool",
         // 降级方法
-        fallbackMethod = "getByIdFallback",
+//        fallbackMethod = "getByIdFallback",
         threadPoolProperties = {
             @HystrixProperty(name = "coreSize", value = "5"),
             @HystrixProperty(name = "maxQueueSize", value = "1"),

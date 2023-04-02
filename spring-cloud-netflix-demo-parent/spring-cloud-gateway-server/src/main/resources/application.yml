@@ -2,7 +2,7 @@ server:
   port: 26000
 spring:
   profiles:
-    active: eureka
+    active: consul
   application:
     name: gateway-server
   cloud:

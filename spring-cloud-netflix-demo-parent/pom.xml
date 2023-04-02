@@ -100,6 +100,11 @@
                 <artifactId>jackson-datatype-jsr310</artifactId>
                 <version>${jackson-datatype-jsr310.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-okhttp</artifactId>
+                <version>11.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

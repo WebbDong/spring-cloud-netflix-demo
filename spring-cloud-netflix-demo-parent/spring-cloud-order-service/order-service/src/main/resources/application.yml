@@ -6,7 +6,7 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://localhost:33010/my_test?rewriteBatchedStatements=true&max_allowed_packet=10M&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:33006/my_test?rewriteBatchedStatements=true&max_allowed_packet=10M&allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 123456
@@ -14,7 +14,7 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   profiles:
-    active: eureka
+    active: consul
 ribbon:
   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
   MaxAutoRetriesNextServer: 0
@@ -22,6 +22,8 @@ ribbon:
   ReadTimeout: 10000
 feign:
   hystrix:
+    enabled: true
+  okhttp:
     enabled: true
   compression:
     request:
